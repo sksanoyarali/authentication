@@ -1,6 +1,7 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import cors from 'cors'
+import dbConnect from './src/utils/db.js'
 dotenv.config() //if not in root you can
 const app = express()
 const port = process.env.PORT || 3000
@@ -15,7 +16,7 @@ app.use(
 )
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
-
+dbConnect()
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
