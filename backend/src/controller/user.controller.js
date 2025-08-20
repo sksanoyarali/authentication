@@ -162,4 +162,57 @@ const loginUser = async (req, res) => {
     })
   }
 }
-export { registerUser, verifyUser, loginUser }
+
+const getProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password')
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: 'user not found',
+      })
+    }
+    return res.status(200).json({
+      success: true,
+      user,
+    })
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      message: 'Internal Server error',
+    })
+  }
+}
+const logoutUser = async (req, res) => {
+  try {
+    res.cookie('jwtToken', '')
+    return res.status(200).json({
+      success: true,
+      message: 'Logged out successfully',
+    })
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      message: 'Internal Server error',
+    })
+  }
+}
+export { registerUser, verifyUser, loginUser, getProfile, logoutUser }
+
+//forget password
+//get email
+//find user based on email
+//reset token+reset expiry +10*60*1000
+// user.save
+
+//send mail design url
+
+// reset password
+// collect token from params
+// password from request .body
+// const {token}=req.params;
+//const {password}=req.body
+// try catch
+// const user=user.findOne({resetPasswortoken,expri with gt syntax})
+// set password in user
+// ?reset -reset password and expiry then save
